@@ -1,0 +1,8 @@
+apiVersion: v1 #Versão da api
+kind: pod #Tipo do recurso
+metadata: #Informações do pod
+  name: primeiro-pod-declarativo #Nome do pod
+spec: #Especificações do pod
+  containers: #Containers no pod
+    - name: nginx-container #Nome do container
+      image: nginx:stable #nomeImagem:versão
