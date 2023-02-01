@@ -7,5 +7,11 @@ Os arquivos criados estarão em _yaml_ por serem mais simples, mas também podem
 O comando utilizado para _aplicar_ o conte trazidos no arquivo de criação do pod é:
 
 ```
-kubectl apply -f ./primeiro-pod.yaml
+kubectl apply -f .\primeiro-pod.yaml
 ``` 
+
+Para remoção do pod através do arquivo, utilizamos o comando:
+
+```
+kubectl delete -f .\primeiro-pod.yaml
+```
