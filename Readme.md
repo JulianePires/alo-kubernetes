@@ -37,7 +37,7 @@ Existem 3 tipos de services:
 
 O arquivo _svc-pod-2.yaml_ traz configurações de um ClusterIP utilizado para comunicar o pod-2 com os demais recursos do cluster.
 
-Nele podemos observar que, além de definirmos o tipo nas especificações, temos também o seletor apontando para o pod-2 e a porta de comunicação/escuta 80.
+Nele podemos observar que, além de definirmos o tipo nas especificações, temos também o seletor apontando para o pod-2 e a porta de destino 80.
 
 Para acessarmos então o pod-2 com o pod-1, estando os pods inicializados, seguimos os passos:
 

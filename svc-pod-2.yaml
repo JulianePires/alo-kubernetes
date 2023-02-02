@@ -7,4 +7,5 @@ spec:
   selector:
     app: segundo-pod #Seleciona o pod-2 através do label
   ports:
-    - port: 80 #Direciona requisições para porta 80
+    - port: 9000 #Ouve requisições na porta 9000
+      targetPort: 80 #Direciona requisições para porta 80
