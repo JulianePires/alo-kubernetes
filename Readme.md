@@ -81,4 +81,25 @@ Para que o serviço seja acessado externamente (do nosso navegador, por exemplo)
 
 Assim, por padrão o ip designado pelo docker desktop no Windows, para que acessemos o cluster na nossa máquina, é o localhost. Acessamos então através da porta definida (3030):
 
-> https://localhost:3030
+> https://localhost:30000
+
+### Distribuindo cargas com *LoadBalancer*
+
+É fácil chegar ao conceito do *Load Balancer* quando já entendemos *ClusterIP* e *NodePort*. O Load Balancer nada mais é do que um NodePort (permite acesso externo) que automaticamente se integra ao LoadBalancer do provedor de Cloud.
+
+Isso facilita MUITO a conexão entre o nosso cluster e qualquer que seja a nuvem que queremos dar acesso a nossa estrutura.
+
+Para configurarmos nosso serviço, criamos então um outro arquivo de configuração denominado *svc-pod-1-loadbalancer.yaml*, onde haverão propriedades que permitirão a criação de um serviço do tipo LoadBalancer vinculado ao *pod-1*, respondendo na porta 30000.
+
+A mesma configuração deve ser aplicada no serviço de cloud. Acessando o terminal e copiando toda a informação num arquivo chamado *lb.yaml*:
+
+```
+cat > lb.yaml
+```
+
+E ativamos através do comando:
+
+```
+kubectl apply -f lb.yaml 
+```
+E... Mágica! Sem nenhuma configuração adicional, somos capazes de acessar nosso pod através de um link externo gerado pelo próprio serviço de nuvem.
