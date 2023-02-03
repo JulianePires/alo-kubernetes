@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: svc-pod-1-loadbalancer
 spec:
-  type: LoadBalancer
+  type: LoadBalancer # Define o tipo do serviço como LoadBalancer
   ports: 
     - port: 80
       nodeport: 30000
