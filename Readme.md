@@ -103,3 +103,19 @@ E ativamos através do comando:
 kubectl apply -f lb.yaml 
 ```
 E... Mágica! Sem nenhuma configuração adicional, somos capazes de acessar nosso pod através de um link externo gerado pelo próprio serviço de nuvem.
+
+### Definindo variáveis de ambiente (*env*)
+
+Para que as notícias sejam cadastradas e trazidas do banco de dados, precisamos configurar um pod com um container do banco (mysql) e um *ClusterIP* para que esse banco possa ser acessado pelos demais pods dentro do cluster.
+
+Só tem um problema com esse pod, o mysql necessita que sejam configuradas algumas variáveis de ambiente para que tenhamos acesso ao seu sistema.
+
+Portanto, podemos definir variáveis de ambiente dentro do arquivo de identificação do próprio pod, dentro de uma propriedade chamada *env* nas especificações do container.
+
+### Discriminando informações com o ConfigMap
+
+No momento atual, temos as configurações de cada pod junto com a declaração de variáveis de ambiente, deixando o código acoplado, não sendo boa prática. Precisamos então desacoplar esse código distribuindo responsabilidades. Para tal, fazemos o uso de *ConfigMaps*.
+
+Além do desacoplamento, os ConfigMaps têm a grande vantagem da reutilização de configurações entre diversos pods.
+
+Para utilizar o ConfigMap dentro do nosso pod de banco de dados, definimos as variáveis de ambiente por referência ao arquivo db-configmap.
