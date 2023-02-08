@@ -119,3 +119,39 @@ No momento atual, temos as configurações de cada pod junto com a declaração 
 Além do desacoplamento, os ConfigMaps têm a grande vantagem da reutilização de configurações entre diversos pods.
 
 Para utilizar o ConfigMap dentro do nosso pod de banco de dados, definimos as variáveis de ambiente por referência ao arquivo db-configmap.
+
+Também foi configurado um ConfigMap para o pod de sistem e um para o pod do portal, definindo as variáveis de ambiente necessárias para o funcionamento de cada um.
+
+Porém, ainda tinhamos o problema de persistência desses pods, caso um fosse deletado por algum motivo específico, não seria mantido, interrompendo assim parte do sistema.
+
+### Garantindo vitalidade com ReplicaSets
+
+Para resolver isso, utilizamos os ReplicaSets, os ReplicaSets são encapsulamentos de pods, sendo capazes de criar e gerenciar um ou mais pods ao mesmo tempo.
+
+Assim, caso algum pod venha a falhar, os ReplicaSets são capazes de criar um novo e/ou gerenciar o balanceamento de carga entre os demais nele presentes.
+
+### Versionando imagens e pods com Deployments
+
+Os *Deployments* conseguem executar a mesmíssimma função dos ReplicaSets, só que, na verdade, os Deployments acabam encapsulando os ReplicaSets, pois possuem a vantagem do controle do versionamento das imagens e pods.
+
+A partir de alguns comandos extras, é possível ter acesso ao histórico de mudanças realizadas nos pods, com o comando:
+
+```
+kubectl rollout history deployment .\nome-deployment.yaml
+```
+
+A saída desse comando traz o número da revisão e a causa da mudança.
+
+Caso eu queira deixar essa causa (um exemplo seria a alteração de versão para latest) um pouco mais declarativa, podemos utilizar o comando:
+
+```
+kubectl annotate deployment .\nome-deployment.yaml kubernetes.io/change-cause="Definindo a imagem com versão latest"
+```
+
+E o mais legal de todos, que é simplesmente poder voltar para um estado de revisão anterior com o comando:
+
+```
+kubectl rollout undo deployment .\nome-deployment.yaml --to-revision=2
+```
+
+Com esse comando, voltaríamos para a configuração presente na revisão 2.
