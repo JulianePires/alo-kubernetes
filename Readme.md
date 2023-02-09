@@ -155,3 +155,15 @@ kubectl rollout undo deployment .\nome-deployment.yaml --to-revision=2
 ```
 
 Com esse comando, voltaríamos para a configuração presente na revisão 2.
+
+## Garantindo persistência
+
+### Volumes
+
+Quando estudamos Docker, aprendemos que conseguimos compartilhar dados entre containers através dos volumes. No kubernetes, o volume tem basicamente a mesma função (nesse caso compartilha informação entre os containers presentes no pod), com a diferença que o ciclo de vida desses volumes depende do pod e não dos containers dentro dele. Então, eles continuam sendo efêmeros, a partir do momento em que o pod deixa de existir, o volume também não faz mais sentido, mas se um container deixa de funcionar, ainda assim temos um volume, pois o pod só deixa de existir no momento em que todos os containers presentes falham.
+
+### PersistentVolume e PersistentVolumeClaim
+
+Os *PersistentVolume's* são volumes que possuem um ciclo de vida independente dos pods, eles geralmente são criados nos serviços de nuvem e podem possuir detalhes de implementação do aramazenamento.
+
+Para acessar um PersistentVolume com um Pod, precisamos de um outro recurso chamado *PersistentVolumeClaim*, como o termo *claim* (requisitar) já diz, o que esse volume faz, é solicitar recursos como memória e CPU para os PersistentVolume's. Por ter esse intermédio, permite-se que os admninistradores possam realizar diversas configurações padrão dentro do PersistentVolume, sem que mais detalhes sobre a estrutura sejam dados na requisição. Eles podem requisitar tamanhos e modos de acesso específicos (montados ReadWriteOnce, ReadOnlyMany or ReadWriteMany). 
