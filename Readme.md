@@ -166,4 +166,8 @@ Quando estudamos Docker, aprendemos que conseguimos compartilhar dados entre con
 
 Os *PersistentVolume's* são volumes que possuem um ciclo de vida independente dos pods, eles geralmente são criados nos serviços de nuvem e podem possuir detalhes de implementação do aramazenamento.
 
-Para acessar um PersistentVolume com um Pod, precisamos de um outro recurso chamado *PersistentVolumeClaim*, como o termo *claim* (requisitar) já diz, o que esse volume faz, é solicitar recursos como memória e CPU para os PersistentVolume's. Por ter esse intermédio, permite-se que os admninistradores possam realizar diversas configurações padrão dentro do PersistentVolume, sem que mais detalhes sobre a estrutura sejam dados na requisição. Eles podem requisitar tamanhos e modos de acesso específicos (montados ReadWriteOnce, ReadOnlyMany or ReadWriteMany). 
+Para acessar um PersistentVolume com um Pod, precisamos de um outro recurso chamado *PersistentVolumeClaim*, como o termo *claim* (requisitar) já diz, o que esse volume faz, é solicitar recursos como memória e CPU para os PersistentVolume's. Por ter esse intermédio, permite-se que os admninistradores possam realizar diversas configurações padrão dentro do PersistentVolume, sem que mais detalhes sobre a estrutura sejam dados na requisição. Eles podem requisitar tamanhos e modos de acesso específicos (montados ReadWriteOnce, ReadOnlyMany or ReadWriteMany).
+
+### Storage Classes
+
+O *Storage Class* possui uma propriedade importante que é ao realizarmos um *bind* do pod com o *pvc* através do Storage Class, somos capazes de criar discos e volumes dinamicamente.
