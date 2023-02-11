@@ -171,3 +171,7 @@ Para acessar um PersistentVolume com um Pod, precisamos de um outro recurso cham
 ### Storage Classes
 
 O *Storage Class* possui uma propriedade importante que é ao realizarmos um *bind* do pod com o *pvc* através do Storage Class, somos capazes de criar discos e volumes dinamicamente.
+
+## Mantendo o estado dos pods com Stateful Sets
+
+O *Stateful Set* tem a função de manter o arquivo e propriedade dos pods ainda que os mesmos sejam deletados e criados novamente. Para isso, precisamos definir que esse pod esteja ligado a um *Persistent Volume Claim* para acessar o *Persistent Volume*.
