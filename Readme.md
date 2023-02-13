@@ -175,3 +175,45 @@ O *Storage Class* possui uma propriedade importante que é ao realizarmos um *bi
 ## Mantendo o estado dos pods com Stateful Sets
 
 O *Stateful Set* tem a função de manter o arquivo e propriedade dos pods ainda que os mesmos sejam deletados e criados novamente. Para isso, precisamos definir que esse pod esteja ligado a um *Persistent Volume Claim* para acessar o *Persistent Volume*.
+
+## Por dentro das métricas com Probes
+
+### Ciclo de vida no *Liveness Probe*
+
+Através do *Liveness Probes*, conseguimos analisar a saúde de um pod e quando será necessário resetá-lo, através de requisições do tipo get para um determinado endereço dentro do pod a cada intervalo estipulado.
+
+O código é escrito da seguinte maneira:
+
+```
+livenessProbe:
+    httpGet:
+        path: /
+        port: 80
+    periodSeconds: 10
+    failureThreshold: 3
+    initialDelaySeconds: 20   
+```
+
+O período de delay inicial é maior por conta da espera pela incialização efetiva do pod, assim como o periodo de intervalo entre as requisições tendo, então, um número de repetições menor.
+
+Esse código é adicionado nas especificações do pod a ser monitorado.
+
+### Receptividade com *Readiness Probe*
+
+Assim como o *liveness*, o *readiness* probe também é utilizado para controle de saúde do pod, mas este cuida da capacidade do pod em receber requisições.
+
+Sendo o código detalhado desta maneira:
+
+```
+ readinessProbe:
+    httpGet:
+        path: /inserir_noticias.php
+        port: 80
+    periodSeconds: 10
+    failureThreshold: 5
+    initialDelaySeconds: 3   
+```  
+
+Como podemos observar, o delay inicial é bem menor, pois nao estamos verificando se esse pod irá finalizar de alguma maneira, mas se ele já e encontra receptível. Portanto, verificamos logo quando inicia-se o pod. Também podemos ter um número maior de requisições.
+
+É importante observar que qualquer uma das *probes* devem realizar a requisição para a porta em que o pod responde internamente (nesse caso, a porta 80).
