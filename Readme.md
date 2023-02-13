@@ -217,3 +217,34 @@ Sendo o código detalhado desta maneira:
 Como podemos observar, o delay inicial é bem menor, pois nao estamos verificando se esse pod irá finalizar de alguma maneira, mas se ele já e encontra receptível. Portanto, verificamos logo quando inicia-se o pod. Também podemos ter um número maior de requisições.
 
 É importante observar que qualquer uma das *probes* devem realizar a requisição para a porta em que o pod responde internamente (nesse caso, a porta 80).
+
+## Escalabilidade
+### Garantindo horizontalidade com HPA (*horizontal pod autoscaler*)
+
+Quando projetamos e criamos um cluster para executar um sistema, por ventura, podemos nos deparar com quebra do sistema e encerramento dos pods por sobrecarga. Por isso, é importante que possamos garantir escalabilidade, para que a aplicação seja autosuficiente e consiga dar conta dos muitos acessos.
+
+Quando aumentamos o número de pods em uma aplicação para garantir que ela supra o número de acesso, chamamos de escalabilidade horizontal. E, para lidar com esse processo, utilizamos uma ferramenta chamada *Horizontal Pod Autoscaler* ou **hca**.
+
+A ferramenta automaticamente escala o número de pods em replicaSets, deployments, replication controllers e stateful sets, tudo baseado em observações à utilização da CPU.
+
+A determinação do uso de recursos é feita através de um trecho de código com a seguinte configuração:
+
+```
+resources:
+    request:
+        cpu: 10m
+```
+
+O que ele diz, basicamente, é que cada pod presente no serviço, requisitará 10 milicores de cpu.
+
+Depois de definido o arquivo do *hpa*, observamos que ainda não é possível acessar as métricas, pois o servidor de métricas não está definido.
+
+Definimos então o servidor de métricas presente no link https://github.com/kubernetes-sigs/metrics-server, com a adição da flag *--kubelet-insecure-tls* como argumento no caso do windows.
+
+Aplicamos então ambos os arquivos (components e portal-noticias-hpa), aguardando o tempo de inicialização e utilizando o script de stress para testar a escalabilidade:
+
+```
+sh stress.sh 0.001 > out.txt
+```
+
+Podemos observar que, ao passo que o consumo de CPU ultrapassa os 50%, novos pods vão sendo criado e, quando esse número é reduzido, os pods vão sendo reduzidos a 1, que é o número padrão.
